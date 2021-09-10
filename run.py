@@ -1,14 +1,16 @@
 import argparse
 import torch
 import torch.backends.cudnn as cudnn
-from torchvision import models
+#from torchvision import models
 from data_aug.contrastive_learning_dataset import ContrastiveLearningDataset
 from models.resnet_simclr import ResNetSimCLR
 from simclr import SimCLR
 
-model_names = sorted(name for name in models.__dict__
-                     if name.islower() and not name.startswith("__")
-                     and callable(models.__dict__[name]))
+#model_names = sorted(name for name in models.__dict__
+#                     if name.islower() and not name.startswith("__")
+#                     and callable(models.__dict__[name]))
+
+model_names = ['resnet18', 'resnet50']
 
 parser = argparse.ArgumentParser(description='PyTorch SimCLR')
 parser.add_argument('-data', metavar='DIR', default='./datasets',
@@ -73,6 +75,7 @@ def main():
         num_workers=args.workers, pin_memory=True, drop_last=True)
 
     model = ResNetSimCLR(base_model=args.arch, out_dim=args.out_dim)
+    print(model)
 
     optimizer = torch.optim.Adam(model.parameters(), args.lr, weight_decay=args.weight_decay)
 
